@@ -36,10 +36,11 @@ jobs:
         java-version: 1.8
 
     - name: Unit tests
+      continue-on-error: true
       run: bash ./gradlew test --stacktrace
 
     - name: Upload Test HTML Result
       uses: actions/upload-artifact@v1
       with:
-        name: app
+        name: test-result
         path: app/build/reports/tests/testDebugUnitTest/index.html
