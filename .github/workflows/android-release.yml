@@ -37,10 +37,10 @@ jobs:
         run: bash ./gradlew test --stacktrace
 
       - name: Upload Test HTML Result
-          uses: actions/upload-artifact@v1
-          with:
-            name: app
-            path: app/build/reports/tests/testReleaseUnitTest/index.html
+        uses: actions/upload-artifact@v1
+        with:
+          name: app
+          path: app/build/reports/tests/testReleaseUnitTest/index.html
 
   build-and-release:
     runs-on: [ubuntu-latest]
@@ -89,6 +89,7 @@ jobs:
             TODO: Add changes
           draft: false
           prerelease: false
+
       - name: Sign APK
         id: sign-apk
         uses: r0adkll/sign-android-release@v1
