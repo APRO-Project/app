@@ -50,6 +50,15 @@ jobs:
             TODO: Add changes
           draft: false
           prerelease: false
+      - name: Sign APK
+        id: sign-apk
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: /app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEYSTORE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload Release APK
         id: upload-release-apk
@@ -58,7 +67,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app/build/outputs/apk/release/app-release-unsigned.apk
+          asset_path: ${{ steps.sign-apk.outputs.signedReleaseFile }}
           asset_name: chekers-release-${{ steps.get_version.outputs.VERSION }}.apk
           asset_content_type: application/vnd.android.package-archive
           
