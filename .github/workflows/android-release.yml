@@ -34,14 +34,14 @@ jobs:
           java-version: 1.8
         
       - name: Unit tests
-        continue-on-error: true
         run: bash ./gradlew test --stacktrace
 
       - name: Upload Test HTML Result
+        if: failure() || success()
         uses: actions/upload-artifact@v1
         with:
           name: test-result
-          path: app/build/reports/tests/testReleaseUnitTest/index.html
+          path: app/build/reports/tests/testReleaseUnitTest/
 
   build-and-release:
     runs-on: [ubuntu-latest]
