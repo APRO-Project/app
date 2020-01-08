@@ -4,7 +4,9 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.cyberbot.checkers.R
+import com.cyberbot.checkers.fx.getRandomAiThinkSoundRes
 import com.cyberbot.checkers.fx.getRandomMoveSoundRes
+import com.cyberbot.checkers.fx.play
 import com.cyberbot.checkers.game.Grid
 import com.cyberbot.checkers.game.GridEntry
 import com.cyberbot.checkers.game.PlayerNum
@@ -23,8 +25,7 @@ class GameActivity : AppCompatActivity() {
 
         checkersGridView.moveAttemptListener = object : MoveAttemptListener {
             override fun onForcedMoveStart(grid: Grid, srcEntry: GridEntry, dstEntry: GridEntry) {
-                val mp = MediaPlayer.create(applicationContext, getRandomMoveSoundRes())
-                mp.start()
+                play(this@GameActivity, getRandomMoveSoundRes())
                 move_player2.text = "Busy"
             }
 
@@ -52,7 +53,14 @@ class GameActivity : AppCompatActivity() {
                         it != src && gridData.moveAllowed(src, it)
                     }.random()
 
-                    checkersGridView.attemptMove(src, dst)
+
+                    Thread {
+                        play(this@GameActivity, getRandomAiThinkSoundRes())
+                        Thread.sleep(1000)
+                        runOnUiThread {
+                            checkersGridView.attemptMove(src, dst)
+                        }
+                    }.start()
                 }
             }
         }
