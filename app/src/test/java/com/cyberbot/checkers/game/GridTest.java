@@ -1,4 +1,4 @@
-package com.cyberbot.checkers.game.game;
+package com.cyberbot.checkers.game;
 
 import com.cyberbot.checkers.game.Grid;
 import com.cyberbot.checkers.game.GridEntry;
