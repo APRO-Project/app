@@ -327,7 +327,7 @@ class CheckersGridView(
         super.onDraw(canvas)
 
         canvas.apply {
-            gridData.forEach {
+            gridData.gridEntries.forEach {
                 drawGridEntry(this, it)
 
                 if (it != movingEntry) {

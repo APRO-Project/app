@@ -2,36 +2,32 @@ package com.cyberbot.checkers.game;
 
 import java.util.ArrayList;
 
-public class JGrid {
-    int size;
-    private int playerRows;
-    private ArrayList<JGridEntry> gridEntries;
+public class Grid {
+    public int size;
+    public ArrayList<GridEntry> gridEntries;
 
-    JGridUpdateListener gridUpdateListener = null;
-
-    public JGrid(int size, int playerRows) {
+    public Grid(int size, int playerRows) {
         this.size = size;
-        this.playerRows = playerRows;
         gridEntries = new ArrayList<>();
 
         for(int i = 0; i < size*size; ++i) {
             int y = i / size;
-            JGridEntry entry = new JGridEntry(i % size, i);
+            GridEntry entry = new GridEntry(i % size, y);
 
             if(y < playerRows && entry.legal())
-                entry.player = JPlayerNum.FIRST;
+                entry.player = PlayerNum.FIRST;
             else if(y >= size - playerRows && entry.legal())
-                entry.player = JPlayerNum.SECOND;
+                entry.player = PlayerNum.SECOND;
 
             gridEntries.add(entry);
         }
     }
 
-    JGridEntry getEntryByCoords(int x, int y) throws IndexOutOfBoundsException {
+    public GridEntry getEntryByCoords(int x, int y) throws IndexOutOfBoundsException {
         if(x >= size || y >= size)
             throw new IndexOutOfBoundsException("Coordinates (" + x + ", " + y + ") out of bounds for grid with size " + size);
 
-        for(JGridEntry e: gridEntries) {
+        for(GridEntry e: gridEntries) {
             if(e.x == x && e.y == y)
                 return e;
         }
@@ -39,15 +35,13 @@ public class JGrid {
         throw new RuntimeException("Entry (" + x + ", " + y + ") not found in Grid");
     }
 
-    boolean moveAllowed(JGridEntry src, JGridEntry dst) {
-        return src == dst || (dst.player == JPlayerNum.NOPLAYER && dst.legal());
+    public boolean moveAllowed(GridEntry src, GridEntry dst) {
+        return src == dst || (dst.player == PlayerNum.NOPLAYER && dst.legal());
     }
 
-    boolean attemptMove(JGridEntry src, JGridEntry dst) {
+    public boolean attemptMove(GridEntry src, GridEntry dst) {
         if(dst == src || !moveAllowed(src, dst))
             return false;
-
-        gridUpdateListener.move(this, src, dst);
 
         int srcIdx = gridEntries.indexOf(src);
         int dstIdx = gridEntries.indexOf(dst);
@@ -56,12 +50,8 @@ public class JGrid {
             throw new RuntimeException("GridEntry destination or source not part of the Grid");
 
         gridEntries.get(dstIdx).player = src.player;
-        gridEntries.get(srcIdx).player = JPlayerNum.NOPLAYER;
+        gridEntries.get(srcIdx).player = PlayerNum.NOPLAYER;
 
         return true;
     }
-}
-
-interface JGridUpdateListener {
-    void move(JGrid grid, JGridEntry src, JGridEntry dst);
 }

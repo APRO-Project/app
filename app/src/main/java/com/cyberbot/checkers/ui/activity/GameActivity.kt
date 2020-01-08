@@ -39,11 +39,11 @@ class GameActivity : AppCompatActivity() {
 
                 grid.attemptMove(srcEntry, dstEntry)
                 if (dstEntry.player == PlayerNum.SECOND) {
-                    val src: GridEntry = gridData.first {
+                    val src: GridEntry = gridData.gridEntries.first {
                         it.player == PlayerNum.FIRST
                     }
 
-                    val dst: GridEntry = gridData.first {
+                    val dst: GridEntry = gridData.gridEntries.first {
                         it != src && gridData.moveAllowed(src, it)
                     }
 

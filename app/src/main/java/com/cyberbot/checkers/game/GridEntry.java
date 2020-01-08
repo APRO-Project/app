@@ -1,21 +1,23 @@
 package com.cyberbot.checkers.game;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class JGridEntry {
-    int y;
-    int x;
-    JPlayerNum player = JPlayerNum.NOPLAYER;
+public class GridEntry {
+    public int y;
+    public int x;
+    public PlayerNum player = PlayerNum.NOPLAYER;
 
-    JGridEntry(int x, int y) {
+    GridEntry(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    boolean legal() {
+    public boolean legal() {
         return ((x % 2) ^ (y % 2)) > 0;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "(" + x + ", " + y + ") - " + player;
@@ -23,20 +25,16 @@ public class JGridEntry {
 
     @Override
     public boolean equals(@Nullable Object obj) {
+        if(obj == null)
+            return false;
         if(this.getClass() != obj.getClass())
             return false;
 
-        return this.x == ((JGridEntry) obj).x && this.y == ((JGridEntry) obj).y;
+        return this.x == ((GridEntry) obj).x && this.y == ((GridEntry) obj).y;
     }
 
     @Override
     public int hashCode() {
         return 31 * x + y;
     }
-}
-
-enum JPlayerNum {
-    NOPLAYER,
-    FIRST,
-    SECOND
 }
