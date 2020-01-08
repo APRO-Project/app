@@ -1,5 +1,6 @@
 package com.cyberbot.checkers.ui.activity
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.cyberbot.checkers.R
@@ -8,6 +9,7 @@ import com.cyberbot.checkers.game.GridEntry
 import com.cyberbot.checkers.game.PlayerNum
 import com.cyberbot.checkers.ui.view.MoveAttemptListener
 import kotlinx.android.synthetic.main.activity_game.*
+
 
 class GameActivity : AppCompatActivity() {
 
@@ -20,6 +22,8 @@ class GameActivity : AppCompatActivity() {
 
         checkersGridView.moveAttemptListener = object : MoveAttemptListener {
             override fun onForcedMoveStart(grid: Grid, srcEntry: GridEntry, dstEntry: GridEntry) {
+                val mp = MediaPlayer.create(applicationContext, R.raw.player_move1)
+                mp.start()
                 move_player2.text = "Busy"
             }
 

@@ -136,7 +136,7 @@ class CheckersGridView(
     var moveAttemptListener: MoveAttemptListener? = null
 
     var riseAnimationDuration = 500L
-    var artificialAnimationDuration = 500L
+    var artificialAnimationDuration = 100L
     var returnAnimationDuration = 500L
     var playerScaleMoving: Float = 1.35F
     var playerSize: Float = 0.6F
