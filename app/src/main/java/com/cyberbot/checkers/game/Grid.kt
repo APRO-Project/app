@@ -1,5 +1,6 @@
 package com.cyberbot.checkers.game
 
+import java.lang.IllegalArgumentException
 import java.lang.RuntimeException
 import kotlin.math.pow
 
@@ -9,6 +10,10 @@ class Grid(val size: Int = 8, private val playerRows: Int = 3) : Iterable<GridEn
     var gridUpdateListener: GridUpdateListener? = null
 
     init {
+        if (playerRows * 2 >= size) {
+            throw IllegalArgumentException("Player rows cannot be greater then or equal to size/2")
+        }
+
         gridEntries = Array(size.toDouble().pow(2).toInt()) {
             val y = it / size
             val entry = GridEntry(it % size, y)
@@ -53,7 +58,7 @@ class Grid(val size: Int = 8, private val playerRows: Int = 3) : Iterable<GridEn
 
         val dstIndex = gridEntries.indexOf(dstEntry)
         val srcIndex = gridEntries.indexOf(srcEntry)
-        if(srcIndex == -1 || dstIndex == -1) {
+        if (srcIndex == -1 || dstIndex == -1) {
             throw RuntimeException("GridEntry destination or source not part of the Grid")
         }
 
