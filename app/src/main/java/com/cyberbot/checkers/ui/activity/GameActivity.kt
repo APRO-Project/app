@@ -44,13 +44,13 @@ class GameActivity : AppCompatActivity() {
 
                 grid.attemptMove(srcEntry, dstEntry)
                 if (dstEntry.player == PlayerNum.SECOND) {
-                    val src: GridEntry = gridData.first {
+                    val src: GridEntry = gridData.filter {
                         it.player == PlayerNum.FIRST
-                    }
+                    }.random()
 
-                    val dst: GridEntry = gridData.first {
+                    val dst: GridEntry = gridData.filter {
                         it != src && gridData.moveAllowed(src, it)
-                    }
+                    }.random()
 
                     checkersGridView.attemptMove(src, dst)
                 }
