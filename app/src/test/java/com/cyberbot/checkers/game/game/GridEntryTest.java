@@ -1,6 +1,9 @@
-package com.cyberbot.checkers.game;
+package com.cyberbot.checkers.game.game;
 
 import android.os.DropBoxManager;
+
+import com.cyberbot.checkers.game.GridEntry;
+import com.cyberbot.checkers.game.PlayerNum;
 
 import java.util.stream.Stream;
 
@@ -13,11 +16,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class GridEntryTest  {
+class GridEntryTest {
+
+    @Test
+    void shouldDefaultToNoPlayer() {
+        GridEntry entry = new GridEntry(0, 0);
+        assertEquals(PlayerNum.NOPLAYER, entry.getPlayer());
+    }
 
     @Test
     void shouldReturnPreviouslySetPlayer() {
-        GridEntry entry = new GridEntry(0,0);
+        GridEntry entry = new GridEntry(0, 0);
 
         entry.setPlayer(PlayerNum.FIRST);
         assertEquals(PlayerNum.FIRST, entry.getPlayer());
@@ -52,6 +61,17 @@ class GridEntryTest  {
         assertFalse(entry.legal());
     }
 
+    @Test
+    @SuppressWarnings("SimplifiableJUnitAssertion")
+    void shouldBeEqualWhenPlayersAreNot() {
+        GridEntry entry1 = new GridEntry(10, 22);
+        GridEntry entry2 = new GridEntry(10, 22);
+
+        entry1.setPlayer(PlayerNum.FIRST);
+        entry1.setPlayer(PlayerNum.SECOND);
+        assertTrue(entry1.equals(entry2));
+    }
+
     private static Stream<Arguments> legalEntryProvider() {
         return Stream.of(
                 Arguments.of(0, 1),
@@ -73,5 +93,4 @@ class GridEntryTest  {
                 Arguments.of(23, 97)
         );
     }
-
 }
