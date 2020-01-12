@@ -13,7 +13,8 @@
     <color name="game_color_grid_default_legal">#808080</color>
     <color name="game_color_grid_default_illegal">#FFFFFF</color>
     <color name="game_color_grid_move_allowed">#76E63E</color>
-    <color name="game_color_grid_move_allowed_hint">#A3F595</color>
+    <color name="game_color_grid_move_allowed_hint">#84CA7A</color>
+    <color name="game_color_grid_capture_allowed_hint">#CAB07C</color>
     <color name="game_color_grid_move_forbidden">#E63E3E</color>
     <color name="game_color_grid_move_source">#6C9BC7</color>
 

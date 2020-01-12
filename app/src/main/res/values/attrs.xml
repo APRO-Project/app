@@ -5,6 +5,7 @@
         <attr name="grid_color_illegal" format="color" />
         <attr name="grid_color_move_allowed" format="color" />
         <attr name="grid_color_move_allowed_hint" format="color" />
+        <attr name="grid_color_capture_allowed_hint" format="color" />
         <attr name="grid_color_move_forbidden" format="color" />
         <attr name="grid_color_move_source" format="color" />
         <attr name="player_color1" format="color" />

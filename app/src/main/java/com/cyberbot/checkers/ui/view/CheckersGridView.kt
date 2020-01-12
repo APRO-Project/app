@@ -41,6 +41,13 @@ class CheckersGridView(
             invalidate()
         }
 
+    var gridColorCaptureAllowedHint: Int = 0
+        set(value) {
+            field = value
+            paintGridColorCaptureAllowedHint.color = value
+            invalidate()
+        }
+
     var gridColorMoveForbidden: Int = 0
         set(value) {
             field = value
@@ -104,6 +111,11 @@ class CheckersGridView(
 
     private val paintGridColorMoveAllowedHint = Paint(0).apply {
         color = gridColorMoveAllowedHint
+        style = Paint.Style.FILL
+    }
+
+    private val paintGridColorCaptureAllowedHint = Paint(0).apply {
+        color = gridColorCaptureAllowedHint
         style = Paint.Style.FILL
     }
 
@@ -227,6 +239,11 @@ class CheckersGridView(
                     getColor(
                         R.styleable.CheckersGridView_grid_color_move_allowed_hint,
                         context.getColor(R.color.game_color_grid_move_allowed_hint)
+                    )
+                gridColorCaptureAllowedHint =
+                    getColor(
+                        R.styleable.CheckersGridView_grid_color_capture_allowed_hint,
+                        context.getColor(R.color.game_color_grid_capture_allowed_hint)
                     )
                 gridColorMoveForbidden =
                     getColor(
@@ -448,11 +465,21 @@ class CheckersGridView(
                         drawGridEntry(this, it, paintGridColorMoveAllowedHint)
                     }
 
+                    val allowedCaptures = gridData.getAllowedCaptures(srcEntry, false)
+                    allowedCaptures?.forEach {
+                        drawGridEntry(
+                            this,
+                            it.locationAfterCapture,
+                            paintGridColorCaptureAllowedHint
+                        )
+                    }
+
                     if (dstEntry != movingEntry) {
                         drawGridEntry(
                             this, dstEntry,
-                            if (gridData.moveAllowed(srcEntry, dstEntry))
-                                paintGridColorMoveAllowed else paintGridColorMoveForbidden
+                            if (gridData.moveAllowed(srcEntry, dstEntry) ||
+                                gridData.captureAllowed(srcEntry, dstEntry)
+                            ) paintGridColorMoveAllowed else paintGridColorMoveForbidden
                         )
                     }
 
@@ -543,7 +570,9 @@ class CheckersGridView(
 
                 movingEntry?.let { gridEntry ->
                     val entry =
-                        if (gridData.moveAllowed(gridEntry, dstEntry)) dstEntry else gridEntry
+                        if (gridData.moveAllowed(gridEntry, dstEntry) ||
+                            gridData.captureAllowed(gridEntry, dstEntry)
+                        ) dstEntry else gridEntry
                     val dstX = (entry.x + 0.5F) * singleCellSize
                     val dstY = (entry.y + 0.5F) * singleCellSize
 
